@@ -3,8 +3,8 @@
 A two-line, boxed status line for [Claude Code](https://claude.com/claude-code) with progress bars, live weather, git state, and rate-limit gauges. No dependencies beyond `jq` and `curl`.
 
 ```
-╭─  macbook │  Projects/app │  main*  +12/-3 │  #42
-╰─  Sonnet 5 │ ⛅ +18°C Amsterdam │  ctx ▓▓▓▓▓▒▒▒▒▒ 47%   5h ▓▓▒▒▒▒▒▒▒▒ 22%   7d ▓▓▓▓▓▓▒▒▒▒ 61% │ 08:17
+╭─  macbook │  Projects/app │  main*  +12/-3 │  #42 │ ⛅ +18°C Amsterdam
+╰─  worker Sonnet 5 │  advisor Fable 5 │  ctx ▓▓▓▓▓▒▒▒▒▒ 47%   5h ▓▓▒▒▒▒▒▒▒▒ 22%   7d ▓▓▓▓▓▓▒▒▒▒ 61% │ 08:17
 ```
 
 ## What it shows
@@ -15,10 +15,11 @@ A two-line, boxed status line for [Claude Code](https://claude.com/claude-code) 
 - Git branch, with `*` when dirty and a live `+added/-removed` diffstat
 - Open PR badge (color reflects review state: green=approved, red=changes requested, yellow=pending/draft) — only shown when a PR exists
 - Worktree badge — only shown inside a `--worktree` session
+- Weather — auto-detected by IP via [wttr.in](https://wttr.in), cached for 20 minutes
 
 **Bottom line**
-- Model name, and output style if it's non-default
-- Weather — auto-detected by IP via [wttr.in](https://wttr.in), cached for 20 minutes
+- Worker model name (the current session's model), and output style if it's non-default
+- Advisor model — read from `advisorModel` in `~/.claude/settings.json`; only shown if that setting exists
 - Context window usage bar
 - 5-hour and 7-day subscription rate-limit bars (Claude.ai subscribers only)
 - Vim mode badge, if vim mode is enabled

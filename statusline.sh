@@ -26,6 +26,7 @@ ICON_CTX=$(printf '')
 ICON_5H=$(printf '')
 ICON_7D=$(printf '')
 ICON_PR=$(printf '')
+ICON_ADVISOR=$(printf '')  # U+F0EB nf-fa-lightbulb-o
 
 # ---- progress bar helper: bar <pct 0-100> <width> ---------------------
 bar() {
@@ -105,6 +106,20 @@ ostyle=$(echo "$input" | jq -r '.output_style.name // empty')
 stylepart=""
 [ -n "$ostyle" ] && [ "$ostyle" != "default" ] && stylepart="  ${DIM}(${ostyle})${RESET}"
 
+# ---- advisor model (from settings.json; not per-session) -------------
+advisorpart=""
+advisorkey=$(jq -r '.advisorModel // empty' "$HOME/.claude/settings.json" 2>/dev/null)
+if [ -n "$advisorkey" ]; then
+  case "$advisorkey" in
+    sonnet) advisorname="Sonnet 5" ;;
+    opus) advisorname="Opus 4.8" ;;
+    haiku) advisorname="Haiku 4.5" ;;
+    fable) advisorname="Fable 5" ;;
+    *) advisorname="$advisorkey" ;;
+  esac
+  advisorpart="  ${GRAY}│${RESET} ${ICON_ADVISOR} ${LABEL}advisor${RESET} ${PURPLE}${advisorname}${RESET}"
+fi
+
 # ---- vim mode badge --------------------------------------------------
 vimpart=""
 vimmode=$(echo "$input" | jq -r '.vim.mode // empty')
@@ -165,7 +180,7 @@ barssep=""
 [ -n "$barspart" ] && barssep="  ${GRAY}│${RESET} "
 
 # ---- render -----------------------------------------------------------
-line1="${GRAY}╭─${RESET} ${CYAN}${ICON_HOST} ${host}${RESET} ${GRAY}│${RESET} ${BLUE}${ICON_DIR} ${shortdir}${RESET}${gitpart}${wtpart}${prpart}${vimpart}"
-line2="${GRAY}╰─${RESET} ${PURPLE}${ICON_MODEL} ${model}${RESET}${stylepart}${weatherpart}${barssep}${barspart}  ${GRAY}│${RESET} ${DIM}${clock}${RESET}"
+line1="${GRAY}╭─${RESET} ${CYAN}${ICON_HOST} ${host}${RESET} ${GRAY}│${RESET} ${BLUE}${ICON_DIR} ${shortdir}${RESET}${gitpart}${wtpart}${prpart}${vimpart}${weatherpart}"
+line2="${GRAY}╰─${RESET} ${ICON_MODEL} ${LABEL}worker${RESET} ${PURPLE}${model}${RESET}${stylepart}${advisorpart}${barssep}${barspart}  ${GRAY}│${RESET} ${DIM}${clock}${RESET}"
 
 printf '%s\n%s\n' "$line1" "$line2"
