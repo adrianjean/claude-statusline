@@ -140,7 +140,7 @@ mkdir -p "$CACHE_DIR" 2>/dev/null
 
 age=99999
 if [ -f "$WCACHE" ]; then
-  mtime=$(stat -f %m "$WCACHE" 2>/dev/null || stat -c %Y "$WCACHE" 2>/dev/null || echo 0)
+  mtime=$(stat -c %Y "$WCACHE" 2>/dev/null || stat -f %m "$WCACHE" 2>/dev/null || echo 0)
   age=$(( $(date +%s) - mtime ))
 fi
 if [ "$age" -ge 1200 ] && mkdir "$WLOCK" 2>/dev/null; then
