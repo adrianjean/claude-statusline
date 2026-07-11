@@ -3,7 +3,7 @@
 A two-line, boxed status line for [Claude Code](https://claude.com/claude-code) with progress bars, live weather, git state, and rate-limit gauges. No dependencies beyond `jq` and `curl`.
 
 ```
-╭─  wooges-mbp │  Projects/app │  main*  +12/-3 │  #42
+╭─  macbook │  Projects/app │  main*  +12/-3 │  #42
 ╰─  Sonnet 5 │ ⛅ +18°C Amsterdam │  ctx ▓▓▓▓▓▒▒▒▒▒ 47%   5h ▓▓▒▒▒▒▒▒▒▒ 22%   7d ▓▓▓▓▓▓▒▒▒▒ 61% │ 08:17
 ```
 
