@@ -27,6 +27,7 @@ ICON_5H=$(printf '')
 ICON_7D=$(printf '')
 ICON_PR=$(printf '')
 ICON_ADVISOR=$(printf '')  # U+F0EB nf-fa-lightbulb-o
+ICON_SESSION=$(printf '\357\201\265')  # U+F075 nf-fa-comment
 
 # ---- progress bar helper: bar <pct 0-100> <width> ---------------------
 bar() {
@@ -94,6 +95,11 @@ if [ -n "$prnum" ]; then
   esac
   prpart="  ${GRAY}│${RESET} ${pcolor}${ICON_PR} #${prnum}${RESET}"
 fi
+
+# ---- session name (set with /rename; hidden when unnamed) -----------
+sessionpart=""
+sessname=$(echo "$input" | jq -r '.session_name // empty')
+[ -n "$sessname" ] && sessionpart="  ${GRAY}│${RESET} ${YELLOW}${ICON_SESSION} ${sessname}${RESET}"
 
 # ---- worktree badge -------------------------------------------------
 wtpart=""
@@ -180,7 +186,7 @@ barssep=""
 [ -n "$barspart" ] && barssep="  ${GRAY}│${RESET} "
 
 # ---- render -----------------------------------------------------------
-line1="${GRAY}╭─${RESET} ${CYAN}${ICON_HOST} ${host}${RESET} ${GRAY}│${RESET} ${BLUE}${ICON_DIR} ${shortdir}${RESET}${gitpart}${wtpart}${prpart}${vimpart}${weatherpart}"
+line1="${GRAY}╭─${RESET} ${CYAN}${ICON_HOST} ${host}${RESET} ${GRAY}│${RESET} ${BLUE}${ICON_DIR} ${shortdir}${RESET}${sessionpart}${gitpart}${wtpart}${prpart}${vimpart}${weatherpart}"
 line2="${GRAY}╰─${RESET} ${ICON_MODEL} ${LABEL}worker${RESET} ${PURPLE}${model}${RESET}${stylepart}${advisorpart}${barssep}${barspart}  ${GRAY}│${RESET} ${DIM}${clock}${RESET}"
 
 printf '%s\n%s\n' "$line1" "$line2"
