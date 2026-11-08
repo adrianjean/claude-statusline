@@ -111,10 +111,10 @@ advisorpart=""
 advisorkey=$(jq -r '.advisorModel // empty' "$HOME/.claude/settings.json" 2>/dev/null)
 if [ -n "$advisorkey" ]; then
   case "$advisorkey" in
-    sonnet) advisorname="Sonnet 5" ;;
-    opus) advisorname="Opus 4.8" ;;
-    haiku) advisorname="Haiku 4.5" ;;
-    fable) advisorname="Fable 5" ;;
+    sonnet) advisorname="Sonnet" ;;
+    opus) advisorname="Opus" ;;
+    haiku) advisorname="Haiku" ;;
+    fable) advisorname="Fable" ;;
     *) advisorname="$advisorkey" ;;
   esac
   advisorpart="  ${GRAY}│${RESET} ${ICON_ADVISOR} ${LABEL}advisor${RESET} ${PURPLE}${advisorname}${RESET}"
